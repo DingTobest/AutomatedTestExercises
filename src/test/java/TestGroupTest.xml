@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+	<test name="Test1">
+		<groups>
+			<run>
+				<include name="smoketest" />
+			</run>
+		</groups>
+		<classes>
+			<class name="testcase.TestGroupTest" />
+		</classes>
+	</test>
+</suite> 
