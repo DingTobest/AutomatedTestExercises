@@ -1,0 +1,2 @@
+# AutomatedTestExercises
+基于TestNG的测试框架联系与分析
