@@ -71,6 +71,7 @@ TestNG的@DataProvider标签，可以实现数据驱动功能。
 `DataTransferPool.java，DataTransferTest.java`
 
 在流程案例的执行过程中，必定会遇到数据传递的问题。比如下一个案例需要使用上一个案例所对应的流水号等场景。TestNG框架自身不包含数据传递功能，需要通过变量等形式，对数据进行传递。以下是对数据传递的一种封装，核心数据结构是Map，通过Key来进行数据的存储和使用。
+
 ![](https://github.com/DingTobest/AutomatedTestExercises/blob/master/pic/5.1.png?raw=true)
 ![](https://github.com/DingTobest/AutomatedTestExercises/blob/master/pic/5.2.png?raw=true)
 
@@ -180,4 +181,4 @@ TestNG在自身的执行调度方面比较弱，可以通过搭配Jekins、Git�
 
 > 点击即可进入公众号：知识的阿尔法
 
-[![](https://github.com/DingTobest/res/blob/master/zhishideaerfa.jpg?raw=true)](https://mp.weixin.qq.com/s/FXX0J7iueLTu5YZQkQ9NJw "李健首张专辑《似水流年》封面")
+[![](https://github.com/DingTobest/res/blob/master/zhishideaerfa.jpg?raw=true)](https://mp.weixin.qq.com/s/FXX0J7iueLTu5YZQkQ9NJw "点击进入公众号：知识的阿尔法")
