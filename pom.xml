@@ -15,6 +15,11 @@
 			<artifactId>httpcore</artifactId>
 			<version>4.4.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.14.0</version>
+		</dependency>
 	</dependencies>
 </project>
 
