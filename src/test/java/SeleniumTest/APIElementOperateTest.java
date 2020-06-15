@@ -168,4 +168,28 @@ public class APIElementOperateTest extends BaseTest {
 			checkbox.click();
 		}
 	}
+	
+	@Test
+	public void test_getWebElementAttribute() {
+		driver.get(sogouURL);
+		String inputString="智云未来";
+		
+		WebElement input = driver.findElement(By.id("query"));
+		
+		input.sendKeys(inputString);
+		
+		String inputText = input.getAttribute("value");
+		Assert.assertEquals(inputString, inputText);
+	}
+	
+	@Test
+	public void test_getWebElementCss() {
+		driver.get(sogouURL);
+		
+		WebElement input = driver.findElement(By.id("query"));
+		
+		String inputWidth = input.getCssValue("width");
+		
+		Assert.assertEquals("535px", inputWidth);
+	}
 }
