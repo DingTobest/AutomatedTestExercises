@@ -132,7 +132,7 @@ public class APISysTest extends BaseTest {
 			e.printStackTrace();
 		}
 		
-		action.moveToElement(text2);
+		action.moveToElement(text2).perform();
 	}
 	
 	@Test

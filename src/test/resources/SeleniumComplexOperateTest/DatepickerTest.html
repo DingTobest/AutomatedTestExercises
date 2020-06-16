@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery UI Datepicker - Dates in other months</title>
+	<link rel="stylesheet" href="D:/workspace_java/AutomatedTestExercises/src/test/resources/SeleniumComplexOperateTest/DatepickerTest_files/jquery-ui.css">
+	<link rel="stylesheet" href="D:/workspace_java/AutomatedTestExercises/src/test/resources/SeleniumComplexOperateTest/DatepickerTest_files/style.css">
+	<script src="D:/workspace_java/AutomatedTestExercises/src/test/resources/SeleniumComplexOperateTest/DatepickerTest_files/jquery-1.12.4.js"></script>
+	<script src="D:/workspace_java/AutomatedTestExercises/src/test/resources/SeleniumComplexOperateTest/DatepickerTest_files/jquery-ui.js"></script>
+	<script>
+	$( function() {
+		$( "#datepicker" ).datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: true
+		});
+	} );
+	</script>
+</head>
+<body>
+
+<p>Date: <input type="text" id="datepicker"></p>
+
+
+</body>
+</html>
