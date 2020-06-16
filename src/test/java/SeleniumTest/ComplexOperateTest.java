@@ -356,15 +356,24 @@ public class ComplexOperateTest extends BaseTest {
 		}
 	}
 	
+	// 当前执行的页面元素高亮显示
+	// 保存上个高亮的页面元素，当高亮执行下个元素时，移除上个元素的高亮状态。
+	WebElement last_element = null;
 	public void highlightElement(WebElement element) {
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		js.executeScript("arguments[0].setAttribute('sytle', arguments[1]);", element, "background: yellow; border: 2px solid red;");
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		if (last_element != null) {
+			js.executeScript("arguments[0].removeAttribute('style');", last_element);
+		}
+
+		// 使用Javascript语句将传入参数的页面元素对象的背景颜色和边框颜色分别设定黄色和红色
+		js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element,
+				"background: yellow; border: 2px solid red;");
+		last_element = element;
 	}
 	
 	@Test
 	public void test_highlightElement() {
-		// 此次测试并没有看到效果
-		
 		driver.get(sogouURL);
 		WebElement searchInputBox = driver.findElement(By.id("query"));
 		WebElement submitButton = driver.findElement(By.id("stb"));
