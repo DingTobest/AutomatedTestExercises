@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Html5WebstorageLocal</title>
+</head>
+<body>
+	<div id="result"></div>
+
+	<script>
+		// Check browser support
+		if (typeof (Storage) !== "undefined") {
+			// Store
+			sessionStorage.setItem("lastname", "Gate");
+			// Retrieve
+			document.getElementById("result").innerHTML = sessionStorage
+					.getItem("lastname");
+		} else {
+			document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+		}
+	</script>
+</body>
+</html>

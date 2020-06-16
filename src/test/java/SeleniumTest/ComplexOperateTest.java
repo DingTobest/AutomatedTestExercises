@@ -5,18 +5,27 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ComplexOperateTest extends BaseTest {
@@ -278,5 +287,220 @@ public class ComplexOperateTest extends BaseTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void test_richEditorTest() {
+		String testURL = rootPath + "RichEditorTest.html";
+		driver.get(testURL);
+		
+		WebElement editor = driver.findElement(By.xpath("//div[@class='w-e-text-container']/div[@class='w-e-text']"));
+		
+		// 直接赋值，成功
+		editor.sendKeys("123456789");
+		
+		// js操作，成功
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].innerHTML += '<p>智云未来</p>'", editor);
+		
+		// 另外可以通过找到紧邻控件，通过tab导航，剪切板输入的形式进行输入
+	}
+	
+	@Test
+	public void test_comparePic() {
+		driver.get(sogouURL);
+		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		
+		File copyFile = new File("D:\\workspace_java\\AutomatedTestExercises\\pic\\comparetest1.png");
+		if (copyFile.exists()) {
+			copyFile.delete();
+		}
+		
+		File compareFile = new File("D:\\workspace_java\\AutomatedTestExercises\\pic\\comparetest2.png");
+		if (compareFile.exists()) {
+			compareFile.delete();
+		}
+		
+		try{
+			Files.copy(scrFile.toPath(), copyFile.toPath());
+			Files.copy(scrFile.toPath(), compareFile.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			BufferedImage bufferCopy = ImageIO.read(copyFile);
+			DataBuffer dataCopyFile = bufferCopy.getData().getDataBuffer();
+			int sizeCopyFile = dataCopyFile.getSize();
+			
+			BufferedImage bufferCoompare = ImageIO.read(compareFile);
+			DataBuffer dataCoompareFile = bufferCoompare.getData().getDataBuffer();
+			int sizeCoompareFile = dataCoompareFile.getSize();
+			
+			Boolean matchFlag = true;
+			if (sizeCopyFile == sizeCoompareFile) {
+				for (int i = 0; i < sizeCopyFile; i++) {
+					if (dataCopyFile.getElem(i) != dataCoompareFile.getElem(i)) {
+						matchFlag = false;
+						break;
+					}
+				}
+			} else {
+				matchFlag = false;
+			}
+			
+			Assert.assertTrue(matchFlag);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void highlightElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].setAttribute('sytle', arguments[1]);", element, "background: yellow; border: 2px solid red;");
+	}
+	
+	@Test
+	public void test_highlightElement() {
+		// 此次测试并没有看到效果
+		
+		driver.get(sogouURL);
+		WebElement searchInputBox = driver.findElement(By.id("query"));
+		WebElement submitButton = driver.findElement(By.id("stb"));
+		
+		highlightElement(searchInputBox);
+		searchInputBox.sendKeys("智云未来");
+		
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		highlightElement(submitButton);
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		submitButton.click();
+	}
+	
+	@Test
+	public void test_html5VideoTest() {
+		String testURL = rootPath + "Html5VideoTest.html";
+		driver.get(testURL);
+
+		WebElement videoPlayer = driver.findElement(By.tagName("video"));
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		String videoSrc = (String) js.executeScript("return arguments[0].currentSrc;", videoPlayer);
+
+		System.out.println(videoSrc);
+
+		Double videoDuration = (Double) js.executeScript("return arguments[0].duration;", videoPlayer);
+
+		System.out.println(videoDuration.intValue());
+
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		js.executeScript("return arguments[0].play();", videoPlayer);
+
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		js.executeScript("return arguments[0].pause();", videoPlayer);
+
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+		System.out.println(scrFile.toPath());
+
+		File copyFile = new File("D:\\workspace_java\\AutomatedTestExercises\\pic\\vidotest.png");
+		if (copyFile.exists()) {
+			copyFile.delete();
+		}
+
+		try {
+			Files.copy(scrFile.toPath(), copyFile.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_canvas() {
+		String testURL = rootPath + "HtmlCanvasTest.html";
+		driver.get(testURL);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		String script = "var canvas=document.getElementById('myCanvas');" + 
+				"var ctx=canvas.getContext('2d');" + 
+				"ctx.fillStyle='#FF0000';" + 
+				"ctx.fillRect(0,0,80,100);";
+		js.executeScript(script);
+		
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+		System.out.println(scrFile.toPath());
+
+		File copyFile = new File("D:\\workspace_java\\AutomatedTestExercises\\pic\\canvastest.png");
+		if (copyFile.exists()) {
+			copyFile.delete();
+		}
+
+		try {
+			Files.copy(scrFile.toPath(), copyFile.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_localStorage() {
+		String testURL = rootPath + "Html5WebstorageLocal.html";
+		driver.get(testURL);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		String lastname = (String)js.executeScript("return localStorage.lastname;");
+		
+		Assert.assertEquals("Gate", lastname);
+		
+		js.executeScript("localStorage.clear();");
+	}
+	
+	@Test
+	public void test_sessionStorage() {
+		String testURL = rootPath + "Html5WebstorageSession.html";
+		driver.get(testURL);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		String lastname = (String)js.executeScript("return sessionStorage.lastname;");
+		
+		Assert.assertEquals("Gate", lastname);
+		
+		js.executeScript("sessionStorage.clear();");
 	}
 }
